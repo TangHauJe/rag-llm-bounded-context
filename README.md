@@ -43,8 +43,6 @@ class CommandsFilter:
         return [item["output"] for item in raw_results if "output" in item]
 
 ### Step 2: Create the Prompt Generator (prompt_generator/CommandsPromptGenerator.py)
-from prompt_generator.BasePromptGenerator import BasePromptGenerator
-
 class CommandsPromptGenerator(BasePromptGenerator):
     def get_role(self) -> str:
         return "You are a strict JSON API server. You ONLY output raw JSON."
@@ -56,9 +54,6 @@ class CommandsPromptGenerator(BasePromptGenerator):
         return {"Commands": ["PlaceOrder", "ProcessPayment"]}
 
 ### Step 3: Create the Service Class (rag_llm_module/NL2IdentifyCommands.py)
-from rag_llm_module.BaseNL2Service import BaseNL2Service
-from prompt_generator.CommandsPromptGenerator import CommandsPromptGenerator
-
 class NL2IdentifyCommands(BaseNL2Service):
     def get_generator(self):
         return CommandsPromptGenerator()
