@@ -68,6 +68,12 @@ class NL2IdentifyCommands(BaseNL2Service):
     def get_generator(self):
         return CommandsPromptGenerator()
 ```
+### Step 4: Notice the valid keys (rag_llm_module/ResponseParser.py)
+```python
+valid_keys = ["BusinessLogic", "DomainEvents", "Commands", "Actors"]
+```
+
+### Step 5: Adjust main for output format
 
 ### Import
 
