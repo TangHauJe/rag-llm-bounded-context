@@ -11,14 +11,14 @@ class ResponseParser:
         # Step 1: Collect all possible JSON (regardless of whether the format is correct or not, dig them out first).
         # ==========================================
         
-        # 策略 A: 優先尋找 Markdown 標記中的 JSON (LLM 最愛的格式)
+        # Strategy A: Prioritize JSON within Markdown tags (LLM's preferred format)
         md_match = re.search(r'```json\s*\n(.*?)\n```', raw_text, re.DOTALL | re.IGNORECASE)
         if md_match:
             try:
                 extracted_jsons.append(json.loads(md_match.group(1)))
             except json.JSONDecodeError:
                 pass
-        # 策略 B: 終極武器 - 智慧型 JSON 掃描器
+        # Strategy B: A JSON Scanner
         # It splits the JSON into multiple independent blocks, unlike greedy Regex which bundles everything together.
         decoder = json.JSONDecoder()
         pos = 0
