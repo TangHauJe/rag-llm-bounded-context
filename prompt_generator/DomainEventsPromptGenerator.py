@@ -13,10 +13,11 @@ class DomainEventsPromptGenerator(BasePromptGenerator):
             "3. DO NOT output any conversational text, greetings, or explanations.\n"
             "4. DO NOT write or generate any code snippets (JavaScript, Python, etc.).\n"
             "5. You MUST strictly follow the Output Format schema. IGNORE the formatting of the provided examples.\n"
-            "--- EXAMPLE ---\n"
-            "Input: The system processes payment and notifies the kitchen.\n"
-            "Output: {\n  \"DomainEvents\": [\n    \"PaymentProcessed\",\n    \"KitchenNotified\"\n  ]\n}\n"
-            "---------------"
+            "6. CAREFULLY analyze preconditions, triggers, or user actions (e.g., 'customer places a food order'). "
+            # "--- EXAMPLE ---\n"
+            # "Input: The system processes payment and notifies the kitchen.\n"
+            # "Output: {\n  \"DomainEvents\": [\n    \"PaymentProcessed\",\n    \"KitchenNotified\"\n  ]\n}\n"
+            # "---------------"
         )
 
     def get_output_schema(self) -> dict:
