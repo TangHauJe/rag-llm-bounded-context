@@ -33,6 +33,7 @@ Import `retrieve.py` directly — no local setup needed.
 ## Developer Guide: How to Add a New DDD Module (e.g., Commands)
 
 ### Step 1: Create the Filter (`filters/CommandsFilter.py`)
+```python
 class CommandsFilter:
     def __init__(self, retriever):
         self.retriever = retriever
@@ -41,8 +42,12 @@ class CommandsFilter:
     def get_clean_examples(self, query_text: str, top_k: int = 3) -> list:
         raw_results = self.retriever.search(query_text, self.target_collection, top_k)
         return [item["output"] for item in raw_results if "output" in item]
+```
 
 ### Step 2: Create the Prompt Generator (prompt_generator/CommandsPromptGenerator.py)
+```python
+from prompt_generator.BasePromptGenerator import BasePromptGenerator
+
 class CommandsPromptGenerator(BasePromptGenerator):
     def get_role(self) -> str:
         return "You are a strict JSON API server. You ONLY output raw JSON."
@@ -52,12 +57,17 @@ class CommandsPromptGenerator(BasePromptGenerator):
         return "CRITICAL: MUST output valid JSON. DO NOT output multiple JSON blocks."
     def get_output_schema(self) -> dict:
         return {"Commands": ["PlaceOrder", "ProcessPayment"]}
+```
 
 ### Step 3: Create the Service Class (rag_llm_module/NL2IdentifyCommands.py)
+```python
+from rag_llm_module.BaseNL2Service import BaseNL2Service
+from prompt_generator.CommandsPromptGenerator import CommandsPromptGenerator
+
 class NL2IdentifyCommands(BaseNL2Service):
     def get_generator(self):
         return CommandsPromptGenerator()
-
+```
 
 ### Import
 
