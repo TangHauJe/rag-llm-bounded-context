@@ -2,7 +2,7 @@ class DomainEventsFilter:
     """filter Domain Events data"""
     def __init__(self, retriever):
         self.retriever = retriever # inject Retriever
-        self.target_collection = "maven_ere_causal"
+        self.target_collection = "log_domain_events"
 
     def get_clean_examples(self, query_text: str, top_k: int = 3) -> list:
         # 1. retrieve the original data

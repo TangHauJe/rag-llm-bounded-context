@@ -27,6 +27,7 @@ class QdrantRetriever:
                 collection=full_collection_name, 
                 n_results=top_k
             )
+            print(f"[Debug] Raw results from query_similar: {results}")
             return results
         except Exception as e:
             print(f"[Retriever] Query failed: {e}")

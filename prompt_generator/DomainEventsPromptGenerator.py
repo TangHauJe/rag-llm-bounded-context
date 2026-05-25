@@ -7,17 +7,16 @@ class DomainEventsPromptGenerator(BasePromptGenerator):
     def get_rules(self) -> str:
         return (
             "CRITICAL INSTRUCTIONS:\n"
-            "1. You MUST output ONLY a single, valid JSON object. Nothing else.\n"
-            "2. DO NOT wrap the JSON in Markdown (e.g., NO ```json ... ```).\n"
-            "3. DO NOT output any conversational text or explanations.\n"
-            "4. Domain Events MUST be written in PascalCase and PAST TENSE verbs (e.g., 'OrderPlaced', 'PaymentProcessed'). DO NOT use nouns like 'KitchenNotification'.\n"
-            "5. CAREFULLY analyze preconditions, triggers, or user actions. These represent state changes and MUST be extracted as Domain Events (e.g., 'Customer food order' -> 'OrderPlaced'). DO NOT ignore the first action that starts the workflow."
+            "1. Output ONLY a valid JSON object matching the exact format of the schema. No markdown, no tags, no explanations.\n"
+            "2. Convert every action or trigger into a PAST TENSE verb in PascalCase.\n"
+            "3. Examples of valid events: 'CartSubmitted', 'DiscountCalculated', 'InvoiceGenerated'."
         )
 
     def get_output_schema(self) -> dict:
         return {
             "DomainEvents": [
-                "OrderPlaced",
-                "EventCompleted"
+                "ConceptOneCompleted",
+                "StateTwoChanged",
+                "ActionThreeExecuted"
             ]
         }

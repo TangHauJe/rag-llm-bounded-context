@@ -7,17 +7,17 @@ class BusinessLogicPromptGenerator(BasePromptGenerator):
     def get_rules(self) -> str:
         return (
             "CRITICAL INSTRUCTIONS:\n"
-            "1. You MUST output ONLY a valid JSON object.\n"
-            "2. Extract the core business concepts, rules, and conditions (e.g., 'VIP Customers', 'discount conditions').\n"
-            "3. DO NOT output step-by-step action sentences, but convert them into a list of key terms.\n"
-            "4. DO NOT DROP TRIGGERS: You MUST include the initial preconditions or user actions that start the process (e.g., 'Customer food order', 'Invoice overdue'). These are essential business conditions."
+            "1. Output ONLY a valid JSON object. No conversational text, no preambles.\n"
+            "2. Represent all logic, conditions, and initial triggers as short key terms or noun phrases (e.g., 'Cart submission', 'VIP 10% discount').\n"
+            "3. Do not use full sentences. Break down complex rules into discrete concepts."
         )
 
     def get_output_schema(self) -> dict:
         return {
             "BusinessLogic": [
-                "VIP Customers",
-                "Discounts",
-                "Discount Conditions"
+                "Core Concept A",
+                "Triggering Condition B",
+                "Business Rule C",
+                "Entity State D"
             ]
         }

@@ -5,6 +5,10 @@ from filters.DomainEventsFilter import DomainEventsFilter
 from rag_llm_module.NL2IdentifyBusinessLogic import NL2IdentifyBusinessLogic
 from rag_llm_module.NL2IdentifyDomainEvents import NL2IdentifyDomainEvents
 
+def load_use_case(file_path: str) -> str:
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return file.read().strip()
+
 if __name__ == "__main__":
     # 1. start (Retriever)
     db_retriever = QdrantRetriever()
@@ -13,7 +17,8 @@ if __name__ == "__main__":
     logic_filter = BusinessLogicFilter(db_retriever)
     events_filter = DomainEventsFilter(db_retriever)
     # ==== user input ====
-    raw_user_input = "When a customer places a food order, the system must process the payment successfully. After that, the kitchen is notified to prepare the meal."
+    #raw_user_input = "When a customer places a food order, the system must process the payment successfully. After that, the kitchen is notified to prepare the meal."
+    raw_user_input = user_input = load_use_case("test_case1.txt")
 
     print("==================================================")
     print("Pipeline Step 1: NL2IdentifyBusinessLogic")
@@ -23,8 +28,10 @@ if __name__ == "__main__":
     logic_examples = logic_filter.get_clean_examples(raw_user_input)
     step1_service = NL2IdentifyBusinessLogic()
     logic_output = step1_service.execute(raw_user_input, top_k_examples=logic_examples)
-    clean_logic_str = logic_output.get("BusinessLogic", raw_user_input)
-    
+    #clean_logic_str = logic_output.get("BusinessLogic", raw_user_input)
+    business_logic_list = logic_output.get("BusinessLogic", [])
+    clean_logic_str = ", ".join(business_logic_list)
+
     print(f"\nStep 1 final output JSON:\n{json.dumps(logic_output, indent=2, ensure_ascii=False)}")
     print(f"Clean string passed to the next step: \"{clean_logic_str}\"")
 
