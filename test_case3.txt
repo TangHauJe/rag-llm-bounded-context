@@ -1,0 +1,1 @@
+When an invoice is overdue by 30 days, the system automatically adds a 5% late fee and suspends the user account. An email notice is then sent to the user.

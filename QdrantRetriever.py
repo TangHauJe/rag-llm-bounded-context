@@ -8,6 +8,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(current_dir, "embedding"))
 
 from retrieve import query_similar
+#from retrieve import query_by_prefix
 
 class QdrantRetriever:
     """database retriever, containing no business cleansing logic."""
@@ -27,7 +28,9 @@ class QdrantRetriever:
                 collection=full_collection_name, 
                 n_results=top_k
             )
-            print(f"[Debug] Raw results from query_similar: {results}")
+            # ===== only for debug =====
+            #print(f"[Debug] Raw results from query_similar: {results}")
+            # ==========================
             return results
         except Exception as e:
             print(f"[Retriever] Query failed: {e}")

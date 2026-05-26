@@ -40,7 +40,16 @@ class ResponseParser:
         # ==========================================
         
         # Define the core keywords allowed (including Commands and Actors that Sal will use in the future).
-        valid_keys = ["BusinessLogic", "DomainEvents", "Commands", "Actors"]
+        valid_keys = [
+            "BusinessLogic", 
+            "DomainEvents", 
+            "Commands", 
+            "Actors",
+            "CommandEventPairs",
+            "Policies",
+            "Aggregates", 
+            "BoundedContexts"
+            ]
         
         for json_obj in extracted_jsons:
             if isinstance(json_obj, dict):
