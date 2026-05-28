@@ -1,7 +1,8 @@
 import requests
 import json
-import re
+import logging
 
+logger = logging.getLogger(__name__)
 class LLMConnector:
     """lab server vllm + llama 3.2 1b"""
     def __init__(self, endpoint="http://140.112.90.146:8088/v1/completions"):
@@ -21,7 +22,8 @@ class LLMConnector:
             response.raise_for_status()
             return response.json()["choices"][0]["text"]
         except Exception as e:
-            print(f"[vLLM Error] Connection failed: {e}")
+            # 🚨 改用 logger.error
+            logger.error(f"[vLLM Error] Connection failed: {e}")
             return "{}"
 
 # class ResponseParser:
