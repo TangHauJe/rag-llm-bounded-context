@@ -23,8 +23,8 @@ from prompt_generator.PoliciesPromptGenerator import PoliciesPromptGenerator
 
 
 def load_use_case(file_path: str) -> str:
-    # Can write the actual file loading logic; currently, using simulated strings instead.
-    return "When a customer places a food order, the system must process the payment successfully. After that, the kitchen is notified to prepare the meal."
+    with open(file_path, 'r', encoding='utf-8') as file:
+        return file.read().strip()
 
 
 if __name__ == "__main__":
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     llm_connector = LLMConnector() # 確保裡面是最新的 API 設定與 Port
     response_parser = ResponseParser()
     
-    raw_user_input = load_use_case("test_case3.txt")
+    raw_user_input = load_use_case("test_case1.txt")
     logger.info(f"Input Use Case: {raw_user_input}")
 
     # ==================================================
@@ -47,8 +47,9 @@ if __name__ == "__main__":
     s1_service = GenericNL2Extractor(llm_connector, response_parser, BusinessLogicPromptGenerator(), "BusinessLogic")
     
     logic_out = s1_service.execute(raw_user_input, s1_filter.get_clean_examples())
+    logger.info(f"S1 output:\n{json.dumps(logic_out, indent=2, ensure_ascii=False)}")
     clean_logic = ", ".join(logic_out.get("BusinessLogic", []))
-    logger.info(f"S1 output: {clean_logic}")
+    logger.info(f"S1 trans: {clean_logic}")
 
     # ==================================================
     # Step 2: Domain Events
@@ -58,8 +59,9 @@ if __name__ == "__main__":
     s2_service = GenericNL2Extractor(llm_connector, response_parser, DomainEventsPromptGenerator(), "DomainEvents")
     
     events_out = s2_service.execute(clean_logic, s2_filter.get_clean_examples())
+    logger.info(f"S2 output:\n{json.dumps(events_out, indent=2, ensure_ascii=False)}")
     clean_events = ", ".join(events_out.get("DomainEvents", []))
-    logger.info(f"S2 output: {clean_events}")
+    logger.info(f"S2 trans: {clean_events}")
 
     # ==================================================
     # Step 3: Commands
@@ -70,8 +72,9 @@ if __name__ == "__main__":
     s3_service = GenericNL2Extractor(llm_connector, response_parser, CommandsPromptGenerator(), "Commands")
     
     commands_out = s3_service.execute(s3_context, s3_filter.get_clean_examples())
+    logger.info(f"S3 output:\n{json.dumps(commands_out, indent=2, ensure_ascii=False)}")
     clean_commands = ", ".join(commands_out.get("Commands", []))
-    logger.info(f"S3 output: {clean_commands}")
+    logger.info(f"S3 trans: {clean_commands}")
 
     # ==================================================
     # Step 4: Actors
