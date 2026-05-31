@@ -44,7 +44,7 @@ class PromptBuilder:
         return self
 
     def add_user_query(self, query: str):
-        self.prompt += f"<|start_header_id|>user<|end_header_id|>\n[TARGET BUSINESS LOGIC]\n{query}\n<|start_header_id|>assistant<|end_header_id|>\n"
+        self.prompt += f"<|start_header_id|>user<|end_header_id|>\n[TARGET BUSINESS LOGIC]\n{query}\n<|start_header_id|>assistant<|end_header_id|>\n```json\n"
         return self
 
     def build(self) -> str:
